@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/classes/Machine.dart';
-import 'package:flutter_application_1/screens/addResourceScreen.dart';
-import 'package:flutter_application_1/screens/makeCoffeeScreen.dart';
+import 'package:lab9/classes/Machine.dart';
+import 'package:lab9/screens/addResourceScreen.dart';
+import 'package:lab9/screens/makeCoffeeScreen.dart';
 
 void main() {
   runApp(const MyApp());
