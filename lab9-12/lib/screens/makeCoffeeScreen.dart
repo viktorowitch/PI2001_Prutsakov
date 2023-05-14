@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:lab9/classes/Machine.dart';
 import 'package:lab9/classes/Resources.dart';
 import 'package:lab9/classes/Enums.dart';
+import 'package:lab9/async/methods.dart';
 import 'package:flutter/material.dart';
 
 class MakeCoffeeScreen extends StatefulWidget {
@@ -19,7 +20,7 @@ class _MakeCoffeeScreenState extends State<MakeCoffeeScreen> {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(text),
-        duration: const Duration(milliseconds: 700),
+        duration: const Duration(seconds: 700),
       ),
     );
   }
@@ -29,34 +30,9 @@ class _MakeCoffeeScreenState extends State<MakeCoffeeScreen> {
     return ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text(text),
-        duration: Duration(milliseconds: duration),
+        duration: Duration(seconds: duration),
       ),
     );
-  }
-
-  Future waterHeating() async {
-    message('Греем воду', 500);
-    var waitingFuture = Future<Object?>.delayed(const Duration(seconds: 3));
-    await waitingFuture.then((_) => message('Вода горячая', 300));
-  }
-
-  Future coffeeMaking() async {
-    message('Варим кофе', 100);
-    var waitingFuture = Future<Object?>.delayed(const Duration(seconds: 5));
-    await waitingFuture.then((_) => message('Кофе сварено', 100));
-  }
-
-  Future milkShaking() async {
-    message('Добавляем молоко', 100);
-    var waitingFuture = Future<Object?>.delayed(const Duration(seconds: 5));
-    await waitingFuture.then((_) => message('Молоко добавлено', 300));
-  }
-
-  Future gathering() async {
-    message('Последние штрихи', 300);
-    var waitingFuture = Future<Object?>.delayed(const Duration(seconds: 5));
-    await waitingFuture.then((_) => message('Кофе готов!', 300));
-    setState(() {});
   }
 
   CoffeeType? coffeeType = CoffeeType.Americano;
@@ -156,10 +132,21 @@ class _MakeCoffeeScreenState extends State<MakeCoffeeScreen> {
                 if (!check) {
                   popUp('Недостаточно ресурсов');
                 } else {
+                  message('Греем воду', 3);
                   await waterHeating();
-                  coffeeMaking();
+                  message('Вода горячая', 1);
+
+                  message('Варим кофе', 5);
+                  await coffeeMaking();
+                  message('Кофе сварено', 1);
+
+                  message('Добавляем молоко', 5);
                   await milkShaking();
+                  message('Молоко добавлено', 1);
+
+                  message('Последние штрихи', 3);
                   await gathering();
+                  message('Кофе готов!', 3);
                 }
               },
               icon: const Icon(Icons.play_arrow)),
